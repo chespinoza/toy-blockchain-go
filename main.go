@@ -49,7 +49,7 @@ func generateBlock(oldblock Block, BPM int) (Block, error) {
 
 }
 func validateBlock(newBlock, oldBlock Block) bool {
-	if oldBlock.Index+1 == newBlock.Index {
+	if oldBlock.Index+1 != newBlock.Index {
 		return false
 	}
 	if oldBlock.Hash != newBlock.PrevHash {
