@@ -91,6 +91,7 @@ func respondWithJSON(w http.ResponseWriter, r *http.Request, code int, payload i
 	w.WriteHeader(code)
 	w.Write(response)
 }
+
 func handleWriteBlockChain(w http.ResponseWriter, r *http.Request) {
 	var m Message
 	decoder := json.NewDecoder(r.Body)
@@ -108,6 +109,10 @@ func handleWriteBlockChain(w http.ResponseWriter, r *http.Request) {
 		newBlockChain := append(BlockChain, newBlock)
 		replaceChain(newBlockChain)
 		spew.Dump(BlockChain)
+	} else {
+		log.Println("attempt to add non valid block!")
+		respondWithJSON(w, r, http.StatusInternalServerError, nil)
+		return
 	}
 	respondWithJSON(w, r, http.StatusCreated, newBlock)
 }
